@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import BtnSubscription from "./BtnSubscription";
 import { createTicker } from "../redux/actions";
 import "../App.css";
 
-const ListTicker = () => {
+const ListTicker = ({ tickers }) => {
   const dispatch = useDispatch();
-  const tickers = useSelector((state) => state.tickers.createTicker);
+
   useEffect(() => {
     dispatch(createTicker());
   }, [dispatch]);
@@ -52,5 +52,9 @@ const ListTicker = () => {
     </div>
   );
 };
-
-export default ListTicker;
+const mapStateToProps = (state) => {
+  return {
+    tickers: state.tickers.createTicker,
+  };
+};
+export default connect(mapStateToProps, null)(ListTicker);

@@ -1,7 +1,6 @@
 import { CREATE_TICKER } from "../redux/types";
 
 const initialState = {
-  tickers: [],
   createTicker: [],
 };
 export const tickersReduser = (state = initialState, action) => {
