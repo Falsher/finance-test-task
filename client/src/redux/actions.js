@@ -1,7 +1,16 @@
 import { CREATE_TICKER } from "./types";
-export function createTicker(ticker) {
-  return {
-    type: CREATE_TICKER,
-    payload: ticker,
+import io from "socket.io-client";
+import { PORT_SERV } from "../env/varibl";
+const socket = io(PORT_SERV);
+
+export function createTicker() {
+  return (dispatch) => {
+    socket.emit("start");
+    socket.on("ticker", async (data) => {
+      await dispatch({
+        type: CREATE_TICKER,
+        payload: data,
+      });
+    });
   };
 }

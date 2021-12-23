@@ -1,19 +1,15 @@
 import React, { useEffect } from "react";
-import { connect } from "react-redux";
-import io from "socket.io-client";
+import { useDispatch, useSelector } from "react-redux";
 import BtnSubscription from "./BtnSubscription";
 import { createTicker } from "../redux/actions";
 import "../App.css";
-import { PORT_SERV } from "../env/varibl";
-const socket = io(PORT_SERV);
 
-const ListTicker = ({ tickers, createTicker }) => {
+const ListTicker = () => {
+  const dispatch = useDispatch();
+  const tickers = useSelector((state) => state.tickers.createTicker);
   useEffect(() => {
-    socket.emit("start");
-    socket.on("ticker", (data) => {
-      createTicker(data);
-    });
-  }, [createTicker]);
+    dispatch(createTicker());
+  }, [dispatch]);
 
   const examinationName = (ticker) => {
     if (ticker.ticker === "AAPL") {
@@ -56,13 +52,5 @@ const ListTicker = ({ tickers, createTicker }) => {
     </div>
   );
 };
-const mapDispatchToProps = {
-  createTicker,
-};
-const mapStateToProps = (state) => {
-  return {
-    tickers: state.tickers.tickers,
-  };
-};
 
-export default connect(mapStateToProps, mapDispatchToProps)(ListTicker);
+export default ListTicker;
