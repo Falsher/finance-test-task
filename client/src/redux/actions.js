@@ -6,8 +6,8 @@ const socket = io(PORT_SERV);
 export function createTicker() {
   return (dispatch) => {
     socket.emit("start");
-    socket.on("ticker", async (data) => {
-      await dispatch({
+    socket.on("ticker", (data) => {
+      dispatch({
         type: CREATE_TICKER,
         payload: data,
       });
